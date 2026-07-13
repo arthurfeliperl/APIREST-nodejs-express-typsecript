@@ -12,7 +12,7 @@ Uma API REST simples desenvolvida para gerenciar o cadastro de usuários. Este p
 * **Crypto (Node nativo)**: Utilizado para geração de IDs únicos (UUID).
 ---
 
-## ⚙️ Funcionalidades
+##  Funcionalidades
 A API permite realizar as quatro operações básicas de um CRUD (Create, Read, Update, Delete):
 
 * Criar um novo usuário.
@@ -24,7 +24,7 @@ A API permite realizar as quatro operações básicas de um CRUD (Create, Read, 
 > **Nota:** Os dados são armazenados na memória local durante a execução da aplicação (em um array). Ao reiniciar o servidor, os dados são resetados.
 ---
 
-## 🚀 Como executar o projeto localmente
+## Como executar o projeto localmente
 
 ### Pré-requisitos
 Você precisará ter o [Node.js](https://nodejs.org/) instalado na sua máquina.
