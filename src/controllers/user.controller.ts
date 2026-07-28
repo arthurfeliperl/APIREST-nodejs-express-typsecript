@@ -1,11 +1,16 @@
 import { type Request, type Response } from "express";
-import db from "../../models/index.js";
-const { User } = db;
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+
+const db = require("../../models/index.js");
+
+const User = db.User;
 
 export const CreateUsers = async (req: Request, res: Response) => {
-    try {
-        const { name, email, birth, password } = req.body;
-
+  try {
+    const { name, email, birth, password } = req.body;
+        console.log(req.body);
         if (!name || !email || !birth || !password) {
             res.status(400).json({ message: "Todos os campos são obrigatórios" });
             return;
