@@ -9,7 +9,8 @@ Uma API REST simples desenvolvida para gerenciar o cadastro de usuários. Este p
 * **Node.js**: Ambiente de execução do JavaScript.
 * **Express**: Micro-framework para criação das rotas da API.
 * **TypeScript**: Superset do JavaScript que adiciona tipagem estática.
-* **Crypto (Node nativo)**: Utilizado para geração de IDs únicos (UUID).
+* **Postgres**: Linguagem utilizada para a implementação do banco de dados.
+  
 ---
 
 ##  Funcionalidades
@@ -20,14 +21,20 @@ A API permite realizar as quatro operações básicas de um CRUD (Create, Read, 
 * Buscar um usuário específico pelo ID.
 * Atualizar os dados de um usuário existente.
 * Deletar um usuário.
+* 
 
-> **Nota:** Os dados são armazenados na memória local durante a execução da aplicação (em um array). Ao reiniciar o servidor, os dados são resetados.
+> **Nota:** Update realizado e agora com disponibilidade de utilização de um banco de dados local (utilizei o DataGrip para a visualização)
 ---
 
 ## Como executar o projeto localmente
 
 ### Pré-requisitos
 Você precisará ter o [Node.js](https://nodejs.org/) instalado na sua máquina.
+TypeScript
+JavaScript
+Express
+Postgres
+Postman/Insomnia
 
 ### Passos para rodar
 1. Faça o clone deste repositório (ou baixe os arquivos).
