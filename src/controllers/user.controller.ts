@@ -1,100 +1,66 @@
 import { type Request, type Response } from "express";
-import { createRequire } from "module";
-import bcrypt from "bcrypt";
-
-const require = createRequire(import.meta.url);
-
-const db = require("../../models/index.js");
-
-const User = db.User;
-
-export const CreateUsers = async (req: Request, res: Response) => {
-  try {
-    const { name, email, birth, password } = req.body;
-        
-        if (!name || !email || !birth || !password) {
-            res.status(400).json({ message: "Todos os campos são obrigatórios" });
-            return;
-        }
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const newUser = await User.create({ name, email, birth, password: hashedPassword });
-        res.status(201).json(newUser);
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Erro interno ao criar usuário" });
-    }
-};
-
-export const AlltheUsers = async (req: Request, res: Response) => {
+export default class UserController {
+  
+  // TAREFA 3: Contrate o cozinheiro (Crie o construtor injetando o userService)constructor(private userService: any) {}
+  constructor(private userService: any){}
+  
+  async create(req: Request, res: Response) {
     try {
-        const allUsers = await User.findAll();
-        res.status(200).json(allUsers);
+      const userData = req.body
 
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Erro interno ao buscar usuários" });
+      const newUser = await this.userService.createUser(userData)
+      res.status(201).json(newUser)
+
+    } catch (error: any) {
+      console.error(error);
+      res.status(400).json({ message: error.message });
     }
-};
-
-export const FindUsers = async (req: Request, res: Response) => {
-    try {
-        const { id } = req.params;
-        const user = await User.findByPk(id);
-
-        if (!user) {
-            res.status(404).json({ message: "Usuário não encontrado" });
-        } else {
-            res.json(user);
-        }
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Erro interno ao buscar usuário" });
-    }
-};
-
-export const UpdateUsers = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    const { name, email, birth, password } = req.body;
-
-    if (!name || !email || !birth || !password) {
-      res.status(400).json({ message: "Todos os campos são obrigatórios" });
-      return;
-    }
-
-    const user = await User.findByPk(id);
-
-    if (!user) {
-      res.status(404).json({ message: "Usuário não encontrado" });
-    } else {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      await user.update({ name, email, birth, password: hashedPassword });
-      
-      res.json(user);
-    }
-    
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Erro interno ao atualizar usuário" });
   }
-};
-export const DeleteUsers = async (req: Request, res: Response) => {
+  async getAll(req: Request, res: Response) {
     try {
-        const { id } = req.params;  
-        const user = await User.findByPk(id);
+      const allUsers = await this.userService.getAllUsers();
+      res.status(200).json(allUsers)
 
-        if (!user) {
-            res.status(404).json({ message: "Usuário não encontrado" });
-        } else {
-            await user.destroy();
-            res.status(204).send();
-        }
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Erro interno ao deletar usuário" });
+    } catch (error: any) {
+      console.error(error);
+      res.status(500).json({ message: error.message });
     }
-};
+  }
+  async getById(req:Request , res:Response ) {
+    try{
+      const {id} = req.params;
+      const user = await this.userService.findByPk(id)
+      res.json(user)
+} catch (error:any){
+  console.error(error);
+  res.status(404).json({message: error.message });
+}
+} 
+  async update(req: Request, res: Response) {
+    try {
+      const {id} = req.params;
+
+      const userData = req.body;
+
+      const updatedUser = await this.userService.updateUser(id, userData); 
+        res.json(updatedUser) 
+
+    } catch (error: any) {
+      console.error(error);
+      res.status(400).json({ message: error.message });
+    }
+  }
+
+  async delete(req: Request, res: Response) {
+    try {
+      const{id} = req.params
+
+      await this.userService.deleteUser(id)
+
+      res.status(204).send()
+
+    } catch (error: any) {
+      console.error(error);
+      res.status(404).json({ message: error.message });
+    }
+  }}
