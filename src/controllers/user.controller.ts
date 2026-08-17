@@ -1,7 +1,7 @@
 import { type Request, type Response } from "express";
 export default class UserController {
   
-  // TAREFA 3: Contrate o cozinheiro (Crie o construtor injetando o userService)constructor(private userService: any) {}
+  
   constructor(private userService: any){}
   
   async create(req: Request, res: Response) {
@@ -29,12 +29,14 @@ export default class UserController {
   async getById(req:Request , res:Response ) {
     try{
       const {id} = req.params;
-      const user = await this.userService.findByPk(id)
+      const user = await this.userService.getById(id)
       res.json(user)
+
 } catch (error:any){
   console.error(error);
   res.status(404).json({message: error.message });
 }
+
 } 
   async update(req: Request, res: Response) {
     try {

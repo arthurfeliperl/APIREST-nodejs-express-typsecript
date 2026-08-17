@@ -44,7 +44,7 @@ export default class UserService {
   return user;    
   }
   async deleteUser(id: string) {
-    const user = this.userModel.findByPk(id);
+    const user = await this.userModel.findByPk(id);
 
     if(!user)
       throw new Error("Usuário não encontrado")

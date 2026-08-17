@@ -1,5 +1,7 @@
-'dotenv/config';
-import { Sequelize } from 'sequelize';
+import 'dotenv/config';
+import { Sequelize } from 'sequelize-typescript';
+import {User} from '../models/User.js';
+import { userInfo } from 'node:os';
 
 export const sequelize = new Sequelize(
     process.env.DB_NAME as string,
@@ -8,6 +10,7 @@ export const sequelize = new Sequelize(
 
     {
         host: process.env.DB_HOST as string,
-        dialect: 'postgres'
+        dialect: 'postgres',
+        models: [User]
     }
 );
