@@ -8,9 +8,9 @@ import { User } from "../models/User.js";
 
 const router = Router();
 
-const userService = new UserService(User);
+const userService = new UserService(User); //injeção de dependencia
 
-const userController = new UserController(userService);
+const userController = new UserController(userService); //injeção de dependencia
 
 router.post("/", userController.create.bind(userController));
 router.get("/", userController.getAll.bind(userController));

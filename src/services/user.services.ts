@@ -1,9 +1,11 @@
 import bcrypt from "bcrypt";
+import {User} from "../models/User.js"
+import type { IUserService, CreateUserDTO, UpdateUserDTO } from "../interfaces/user.interface.js";
 
-export default class UserService {
-  constructor(private userModel: any) {}
+export default class UserService implements IUserService {
+  constructor(private userModel: typeof User) {}
 
-  async createUser(data: any) {
+  async createUser(data: CreateUserDTO) {
     const { name, email, birth, password } = data;
 
     if (!name || !email || !password || !birth) {

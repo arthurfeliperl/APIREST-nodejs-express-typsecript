@@ -1,8 +1,8 @@
 import { type Request, type Response } from "express";
+import  type { IUserService } from "../interfaces/user.interface.js";
+
 export default class UserController {
-  
-  
-  constructor(private userService: any){}
+  constructor(private userService: IUserService){}
   
   async create(req: Request, res: Response) {
     try {
@@ -26,7 +26,7 @@ export default class UserController {
       res.status(500).json({ message: error.message });
     }
   }
-  async getUserById(req:Request , res:Response ) {
+  async getUserById(req: Request<{ id: string }>, res: Response) {
     try{
       const {id} = req.params;
       const user = await this.userService.getUserById(id)
@@ -38,7 +38,7 @@ export default class UserController {
 }
 
 } 
-  async update(req: Request, res: Response) {
+  async update(req: Request<{ id: string }>, res: Response) {
     try {
       const {id} = req.params;
 
@@ -53,7 +53,7 @@ export default class UserController {
     }
   }
 
-  async delete(req: Request, res: Response) {
+  async delete(req: Request<{ id: string }>, res: Response){
     try {
       const{id} = req.params
 
