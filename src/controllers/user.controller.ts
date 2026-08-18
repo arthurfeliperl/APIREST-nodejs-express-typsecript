@@ -26,10 +26,10 @@ export default class UserController {
       res.status(500).json({ message: error.message });
     }
   }
-  async getById(req:Request , res:Response ) {
+  async getUserById(req:Request , res:Response ) {
     try{
       const {id} = req.params;
-      const user = await this.userService.getById(id)
+      const user = await this.userService.getUserById(id)
       res.json(user)
 
 } catch (error:any){
