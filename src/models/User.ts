@@ -1,6 +1,11 @@
 import { Table, Column, Model, DataType } from "sequelize-typescript";
 
-@Table
+@Table({
+  tableName: "user",
+  freezeTableName: true,
+  paranoid: true,
+  underscored: true,
+})
 export class User extends Model {
   @Column({
     type: DataType.INTEGER,
@@ -20,3 +25,6 @@ export class User extends Model {
   @Column(DataType.DATEONLY)
   birth!: Date;
 }
+
+//TODO: botar declare em nome,password,email, birth
+//TODO: não deixat table e column vazios

@@ -9,10 +9,11 @@ import AuthController from "./controllers/auth.controller.js";
 const app = express();
 app.use(express.json());
 
-const authService = new AuthService(User); 
+const authService = new AuthService(User);
 const authController = new AuthController(authService);
 
 app.use("/users", userRoutes);
+
 app.use("/auth", authController.getRouter());
 
 const startServer = async () => {

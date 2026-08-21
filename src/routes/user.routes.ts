@@ -1,16 +1,13 @@
 import { Router } from "express";
 import UserController from "../controllers/user.controller.js";
 import UserService from "../services/user.services.js";
-import { createRequire } from "module";
-
-const require = createRequire(import.meta.url);
-import { User } from "../models/User.js"; 
+import { User } from "../models/User.js";
 
 const router = Router();
 
-const userService = new UserService(User); //injeção de dependencia
+const userService = new UserService(User); 
 
-const userController = new UserController(userService); //injeção de dependencia
+const userController = new UserController(userService);
 
 router.post("/", userController.create.bind(userController));
 router.get("/", userController.getAll.bind(userController));

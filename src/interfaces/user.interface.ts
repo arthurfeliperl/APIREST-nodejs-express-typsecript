@@ -1,6 +1,6 @@
 import type { User } from "../models/User.js";
 
-export interface IUserService { //tipagem forte
+export interface UserServiceInterface {
   createUser(data: CreateUserDTO): Promise<User>;
   getAllUsers(): Promise<User[]>;
   getUserById(id: string): Promise<User>;
