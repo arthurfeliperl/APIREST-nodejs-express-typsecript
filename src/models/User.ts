@@ -1,10 +1,9 @@
 import { Table, Column, Model, DataType } from "sequelize-typescript";
 
 @Table({
-  tableName: "user",
+  tableName: "Users",
   freezeTableName: true,
   paranoid: true,
-  underscored: true,
 })
 export class User extends Model {
   @Column({
@@ -12,19 +11,22 @@ export class User extends Model {
     primaryKey: true,
     autoIncrement: true,
   })
-  declare id: number; //'declare' serve para evitar conflito com o id base que ja vem no sequelize atual
+  declare id: number; 
   @Column(DataType.STRING)
-  name!: string;
+  declare name: string;
 
-  @Column(DataType.STRING)
-  email!: string;
-
-  @Column(DataType.STRING)
-  password!: string;
+  @Column(DataType.STRING)    
+  declare password: string;
 
   @Column(DataType.DATEONLY)
-  birth!: Date;
+  declare birth: Date;
+
+  @Column({
+  type: DataType.STRING,
+  unique: true,
+})
+  declare email: string;
 }
 
-//TODO: botar declare em nome,password,email, birth
-//TODO: não deixat table e column vazios
+
+//TODO: perguntar pro guilherme se desse jeito esta certo e bom

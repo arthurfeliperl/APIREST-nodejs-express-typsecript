@@ -1,12 +1,5 @@
 import type { User } from "../models/User.js";
-
-export interface UserServiceInterface {
-  createUser(data: CreateUserDTO): Promise<User>;
-  getAllUsers(): Promise<User[]>;
-  getUserById(id: string): Promise<User>;
-  updateUser(id: string, data: UpdateUserDTO): Promise<User>;
-  deleteUser(id: string): Promise<boolean>;
-}
+import type { ServiceInterface } from "./service.interface.js";
 
 export interface CreateUserDTO {
   name: string;
@@ -20,4 +13,13 @@ export interface UpdateUserDTO {
   email?: string;
   password?: string;
   birth?: Date;
+}
+
+export interface UserServiceInterface
+  extends ServiceInterface<User, CreateUserDTO, UpdateUserDTO> {
+  createUser(data: CreateUserDTO): Promise<User>;
+  getAllUsers(): Promise<User[]>;
+  getUserById(id: string): Promise<User>;
+  updateUser(id: string, data: UpdateUserDTO): Promise<User>;
+  deleteUser(id: string): Promise<boolean>;
 }

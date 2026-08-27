@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import { User } from "../models/User.js";
+import { NotFoundError,BadRequestError} from "../helpers/Api-Error.js";
 import type {
   UserServiceInterface,
   CreateUserDTO,
@@ -13,7 +14,7 @@ export default class UserService implements UserServiceInterface {
     const { name, email, birth, password } = data;
 
     if (!name || !email || !password || !birth) {
-      throw new Error("Algum campo não foi preenchido");
+      throw new BadRequestError("Algum campo não foi preenchido");
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const novoUsuario = await this.userModel.create({
@@ -35,14 +36,16 @@ export default class UserService implements UserServiceInterface {
     const user = await this.userModel.findByPk(id);
 
     if (!user) {
-      throw new Error("Usuário não encontrado");
-    }
+      throw new NotFoundError("Usuário não encontrado");
+}
     return user;
   }
   async updateUser(id: string, data: UpdateUserDTO) {
-  const user = await this.userModel.findByPk(id);
-  if (!user) throw new Error("Usuário não encontrado");
+   const user = await this.userModel.findByPk(id);
 
+  if (!user) {
+    throw new NotFoundError("Usuário não encontrado");
+}
   const updateData: Partial<CreateUserDTO> = { ...data };
   if (data.password) {
     updateData.password = await bcrypt.hash(data.password, 10);
@@ -52,9 +55,11 @@ export default class UserService implements UserServiceInterface {
   return user;
 }
   async deleteUser(id: string) {
-    const user = await this.userModel.findByPk(id);
+  const user = await this.userModel.findByPk(id);
 
-    if (!user) throw new Error("Usuário não encontrado");
+  if (!user) {
+    throw new NotFoundError("Usuário não encontrado");
+}
 
     await user.destroy();
     return true;

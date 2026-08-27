@@ -1,26 +1,28 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import  { User } from "../models/User.js";
+import { BadRequestError, UnauthorizedError } from "../helpers/Api-Error.js";
 
 export default class AuthService {
-  constructor(private userModel: any) {}
+  constructor(private userModel: typeof User) {} 
 
   async login(dto: LoginDTO) {
     const { email, password } = dto;
 
     if (!email || !password) {
-      throw new Error("Email e senha são obrigatórios");
+      throw new BadRequestError("Email e senha são obrigatórios");
     }
 
     const user = await this.userModel.findOne({ where: { email } });
 
     if (!user) {
-      throw new Error("Email ou senha inválidos");
+      throw new UnauthorizedError("Email ou senha inválidos");
     }
 
     const senhaCorreta = await bcrypt.compare(password, user.password);
 
     if (!senhaCorreta) {
-      throw new Error("Email ou senha inválidos");
+      throw new UnauthorizedError("Email ou senha inválidos");
     }
 
     const token = jwt.sign(

@@ -5,6 +5,8 @@ import { User } from "./models/User.js";
 import userRoutes from "./routes/user.routes.js";
 import AuthService from "./services/auth.services.js";
 import AuthController from "./controllers/auth.controller.js";
+import authRoutes from "./routes/auth.routes.js";
+import { errorHandler } from "./middlewares/error.js";
 
 const app = express();
 app.use(express.json());
@@ -14,7 +16,7 @@ const authController = new AuthController(authService);
 
 app.use("/users", userRoutes);
 
-app.use("/auth", authController.getRouter());
+app.use("/auth", authRoutes);
 
 const startServer = async () => {
   try {
@@ -28,5 +30,6 @@ const startServer = async () => {
     console.error("Não foi possível conectar ao banco de dados:", error);
   }
 };
+app.use(errorHandler);
 
 startServer();
